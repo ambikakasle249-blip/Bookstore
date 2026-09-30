@@ -1,2 +1,2 @@
 # Bookstore
-This is our project.
+This is my project.

@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BookNest - Online Bookstore</title>
+
+
+    <!-- =========================
+         CSS
+    ========================== -->
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        header {
+            background: #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+
+            padding: 18px 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .logo {
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            list-style: none;
+
+            display: flex;
+            gap: 25px;
+        }
+
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+
+        .nav-links a:hover {
+            color: #fbbf24;
+        }
+
+
+        #cart-count {
+            background: #ef4444;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 450px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    rgba(15, 23, 42, 0.75),
+                    rgba(15, 23, 42, 0.75)
+                ),
+                url("https://images.unsplash.com/photo-1507842217343-583bb7270b66")
+                center/cover;
+        }
+
+
+        .hero-content {
+            color: white;
+            max-width: 750px;
+            padding: 20px;
+        }
+
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+
+        .hero-btn {
+            display: inline-block;
+
+            background: #f59e0b;
+            color: white;
+
+            padding: 14px 28px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .hero-btn:hover {
+            background: #d97706;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================== */
+
+        .search-section {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+
+        .search-section h2 {
+            margin-bottom: 20px;
+        }
+
+
+        #searchInput {
+            width: 90%;
+            max-width: 600px;
+
+            padding: 15px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           BOOK SECTION
+        ========================== */
+
+        .books-section {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 30px 20px 70px;
+        }
+
+
+        .books-section h2 {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+
+        .book-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 25px;
+        }
+
+
+        .book-card {
+            background: white;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.1);
+
+            transition: 0.3s;
+        }
+
+
+        .book-card:hover {
+            transform: translateY(-7px);
+        }
+
+
+        .book-card img {
+            width: 100%;
+            height: 280px;
+
+            object-fit: cover;
+        }
+
+
+        .book-info {
+            padding: 18px;
+        }
+
+
+        .book-info h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .author {
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+
+        .price {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #16a34a;
+
+            margin-bottom: 15px;
+        }
+
+
+        .book-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+
+        .book-buttons button {
+            flex: 1;
+
+            padding: 10px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+
+        .details-btn {
+            background: #334155;
+            color: white;
+        }
+
+
+        .add-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+
+        .book-buttons button:hover {
+            opacity: 0.85;
+        }
+
+
+        /* =========================
+           PAGES / SECTIONS
+        ========================== */
+
+        .page {
+            display: none;
+
+            min-height: 70vh;
+
+            padding: 50px 20px;
+        }
+
+
+        .page.active {
+            display: block;
+        }
+
+
+        /* =========================
+           BOOK DETAILS
+        ========================== */
+
+        .details-container {
+            max-width: 1000px;
+
+            margin: auto;
+        }
+
+
+        .details-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            gap: 40px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.1);
+        }
+
+
+        .details-card img {
+            width: 300px;
+            height: 400px;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+        }
+
+
+        .details-info {
+            flex: 1;
+        }
+
+
+        .details-info h1 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+
+        .details-info h3 {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+
+        .details-info p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+
+        .details-price {
+            font-size: 28px;
+
+            color: #16a34a;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+
+        .add-details-btn {
+            padding: 13px 25px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #f59e0b;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+
+        .back-btn {
+            margin-top: 20px;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            background: #334155;
+
+            color: white;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           CART
+        ========================== */
+
+        .cart-section {
+            max-width: 1000px;
+
+            margin: auto;
+        }
+
+
+        .cart-section h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        .cart-item {
+            background: white;
+
+            margin-bottom: 15px;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+        }
+
+
+        .cart-item img {
+            width: 80px;
+            height: 100px;
+
+            object-fit: cover;
+
+            border-radius: 5px;
+        }
+
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+
+        .cart-item-info h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .cart-item-info p {
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+
+        .remove-btn {
+            background: #ef4444;
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 15px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+
+        .cart-summary {
+            background: white;
+
+            padding: 25px;
+
+            margin-top: 30px;
+
+            text-align: right;
+
+            border-radius: 8px;
+        }
+
+
+        .checkout-btn {
+            margin-top: 15px;
+
+            padding: 13px 25px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #16a34a;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+
+        .empty-cart {
+            text-align: center;
+
+            padding: 50px;
+
+            background: white;
+
+            border-radius: 8px;
+        }
+
+
+        /* =========================
+           CHECKOUT
+        ========================== */
+
+        .checkout-section {
+            max-width: 700px;
+
+            margin: auto;
+        }
+
+
+        .checkout-section > h1 {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .checkout-box {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.1);
+        }
+
+
+        .checkout-box h2 {
+            margin-bottom: 20px;
+        }
+
+
+        .checkout-item {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        #checkout-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            margin-top: 20px;
+        }
+
+
+        #checkout-form input,
+        #checkout-form textarea {
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+
+        #checkout-form textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        .place-order-btn {
+            padding: 14px;
+
+            border: none;
+
+            background: #16a34a;
+
+            color: white;
+
+            font-size: 17px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .order-message {
+            text-align: center;
+
+            margin-top: 20px;
+
+            font-size: 20px;
+
+            color: #16a34a;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #1e293b;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+
+        footer p {
+            margin-top: 10px;
+            color: #cbd5e1;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+
+            .nav-links {
+                gap: 15px;
+            }
+
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+
+            .details-card {
+                flex-direction: column;
+
+                align-items: center;
+            }
+
+
+            .details-card img {
+                width: 250px;
+                height: 330px;
+            }
+
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+                📚 BookNest
+            </div>
+
+
+            <ul class="nav-links">
+
+                <li>
+                    <a onclick="showPage('home')">
+                        Home
+                    </a>
+                </li>
+
+
+                <li>
+                    <a onclick="showPage('home'); scrollToBooks()">
+                        Books
+                    </a>
+                </li>
+
+
+                <li>
+                    <a onclick="showPage('cart')">
+                        Cart 🛒
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
+
+    <section id="home" class="page active">
+
+
+        <!-- Hero -->
+
+        <div class="hero">
+
+            <div class="hero-content">
+
+                <h1>
+                    Discover Your Next Favorite Book
+                </h1>
+
+                <p>
+                    Explore our collection of amazing books
+                    and find something perfect to read.
+                </p>
+
+                <a
+                    class="hero-btn"
+                    onclick="scrollToBooks()">
+
+                    Explore Books
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Search -->
+
+        <section class="search-section">
+
+            <h2>
+                🔍 Find Your Book
+            </h2>
+
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by book title..."
+                onkeyup="searchBooks()">
+
+        </section>
+
+
+
+        <!-- Books -->
+
+        <section
+            id="books"
+            class="books-section">
+
+            <h2>
+                📚 Popular Books
+            </h2>
+
+
+            <div
+                id="book-container"
+                class="book-container">
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+
+    <!-- =========================
+         BOOK DETAILS PAGE
+    ========================== -->
+
+    <section
+        id="details"
+        class="page">
+
+
+        <div class="details-container">
+
+            <div id="book-details">
+
+            </div>
+
+
+            <button
+                class="back-btn"
+                onclick="showPage('home')">
+
+                ← Back to Books
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CART PAGE
+    ========================== -->
+
+    <section
+        id="cart"
+        class="page">
+
+
+        <div class="cart-section">
+
+            <h1>
+                🛒 Your Shopping Cart
+            </h1>
+
+
+            <div id="cart-container">
+
+            </div>
+
+
+            <div class="cart-summary">
+
+                <h2>
+                    Total:
+                    ₹<span id="cart-total">0</span>
+                </h2>
+
+
+                <button
+                    class="checkout-btn"
+                    onclick="goToCheckout()">
+
+                    Proceed to Checkout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CHECKOUT PAGE
+    ========================== -->
+
+    <section
+        id="checkout"
+        class="page">
+
+
+        <div class="checkout-section">
+
+            <h1>
+                💳 Checkout
+            </h1>
+
+
+            <div class="checkout-box">
+
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div id="checkout-items">
+
+                </div>
+
+
+                <h2>
+                    Total:
+                    ₹<span id="checkout-total">0</span>
+                </h2>
+
+
+
+                <h2>
+                    Customer Information
+                </h2>
+
+
+                <form id="checkout-form">
+
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Full Name"
+                        required>
+
+
+                    <input
+                        type="email"
+                        id="customerEmail"
+                        placeholder="Email Address"
+                        required>
+
+
+                    <textarea
+                        id="customerAddress"
+                        placeholder="Delivery Address"
+                        required>
+                    </textarea>
+
+
+                    <button
+                        type="submit"
+                        class="place-order-btn">
+
+                        Place Order
+
+                    </button>
+
+
+                </form>
+
+
+                <div
+                    id="order-message"
+                    class="order-message">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <h2>
+            📚 BookNest
+        </h2>
+
+        <p>
+            Your online destination for great books.
+        </p>
+
+        <p>
+            © 2026 BookNest. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        // =========================================
+        // BOOK DATA
+        // =========================================
+
+        let books = [];
+
+            
+
+            
+
+
+        // =========================================
+        // CART
+        // =========================================
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+
+        // =========================================
+        // SHOW PAGE
+        // =========================================
+
+        function showPage(pageName) {
+
+            const pages =
+                document.querySelectorAll(".page");
+
+
+            pages.forEach(page => {
+
+                page.classList.remove("active");
+
+            });
+
+
+            document
+                .getElementById(pageName)
+                .classList.add("active");
+
+
+            if (pageName === "cart") {
+
+                displayCart();
+
+            }
+
+
+            if (pageName === "checkout") {
+
+                displayCheckout();
+
+            }
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        // =========================================
+        // SCROLL TO BOOKS
+        // =========================================
+
+        function scrollToBooks() {
+
+            showPage("home");
+
+
+            setTimeout(() => {
+
+                document
+                    .getElementById("books")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+            }, 100);
+
+        }
+
+
+
+        // =========================================
+        // DISPLAY BOOKS
+        // =========================================
+
+        function displayBooks(bookList = books) {
+
+            const container =
+                document.getElementById(
+                    "book-container"
+                );
+
+
+            container.innerHTML = "";
+
+
+            if (bookList.length === 0) {
+
+                container.innerHTML = `
+                    <div style="
+                        text-align:center;
+                        grid-column:1/-1;
+                        padding:40px;
+                    ">
+
+                        <h3>
+                            No books found 🔍
+                        </h3>
+
+                        <p>
+                            Try searching for another book.
+                        </p>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            bookList.forEach(book => {
+
+                container.innerHTML += `
+
+                    <div class="book-card">
+
+                        <img
+                            src="${book.image}"
+                            alt="${book.title}"
+                        >
+
+
+                        <div class="book-info">
+
+                            <h3>
+                                ${book.title}
+                            </h3>
+
+
+                            <p class="author">
+                                By ${book.author}
+                            </p>
+
+
+                            <p class="price">
+                                ₹${book.price}
+                            </p>
+
+
+                            <div class="book-buttons">
+
+                                <button
+                                    class="details-btn"
+                                    onclick="
+                                        viewDetails(${book.id})
+                                    ">
+
+                                    Details
+
+                                </button>
+
+
+                                <button
+                                    class="add-btn"
+                                    onclick="
+                                        addToCart(${book.id})
+                                    ">
+
+                                    Add to Cart
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+
+        // =========================================
+        // SEARCH
+        // =========================================
+
+        function searchBooks() {
+
+            const searchText =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase();
+
+
+            const filteredBooks =
+                books.filter(book =>
+
+                    book.title
+                        .toLowerCase()
+                        .includes(searchText)
+
+                );
+
+
+            displayBooks(filteredBooks);
+
+        }
+
+
+
+        // =========================================
+        // VIEW BOOK DETAILS
+        // =========================================
+
+        function viewDetails(id) {
+
+            const book =
+                books.find(
+                    book => book.id === id
+                );
+
+
+            if (!book) {
+                return;
+            }
+
+
+            const container =
+                document.getElementById(
+                    "book-details"
+                );
+
+
+            container.innerHTML = `
+
+                <div class="details-card">
+
+                    <img
+                        src="${book.image}"
+                        alt="${book.title}"
+                    >
+
+
+                    <div class="details-info">
+
+                        <h1>
+                            ${book.title}
+                        </h1>
+
+
+                        <h3>
+                            Author: ${book.author}
+                        </h3>
+
+
+                        <p>
+                            ${book.description}
+                        </p>
+
+
+                        <div class="details-price">
+                            ₹${book.price}
+                        </div>
+
+
+                        <button
+                            class="add-details-btn"
+                            onclick="
+                                addToCart(${book.id})
+                            ">
+
+                            Add to Cart 🛒
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            showPage("details");
+
+        }
+
+
+
+        // =========================================
+        // ADD TO CART
+        // =========================================
+
+        function addToCart(id) {
+
+    const book = books.find(book => book.id === id);
+
+    if (!book) {
+        alert("Book not found!");
+        return;
+    }
+
+    const cartItem = {
+        bookId: book.id,
+        title: book.title,
+        price: book.price,
+        image: book.image,
+        quantity: 1
+    };
+
+    fetch("http://localhost:8080/api/cart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(cartItem)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to add book to cart");
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        console.log("Book added to backend cart:", data);
+
+        alert(book.title + " added to cart!");
+
+        // Refresh cart count
+        updateCartCount();
+    })
+    .catch(error => {
+
+        console.error("Cart error:", error);
+
+        alert("Unable to add book to cart.");
+    });
+}
+
+
+
+        // =========================================
+        // UPDATE CART COUNT
+        // =========================================
+
+        function updateCartCount() {
+
+    const countElement =
+        document.getElementById("cart-count");
+
+    fetch("http://localhost:8080/api/cart")
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to get cart");
+            }
+
+            return response.json();
+        })
+
+        .then(cartItems => {
+
+            // Calculate total quantity
+            let count = 0;
+
+            cartItems.forEach(item => {
+                count += item.quantity;
+            });
+
+            countElement.textContent = count;
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Cart count error:",
+                error
+            );
+
+            countElement.textContent = "0";
+        });
+}
+
+
+
+        // =========================================
+        // DISPLAY CART
+        // =========================================
+
+        function displayCart() {
+
+    const container =
+        document.getElementById("cart-container");
+
+    const totalElement =
+        document.getElementById("cart-total");
+
+    container.innerHTML = "";
+
+    // Get cart items from Spring Boot backend
+    fetch("http://localhost:8080/api/cart")
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to load cart");
+            }
+
+            return response.json();
+        })
+
+        .then(cartItems => {
+
+            console.log("Cart received from backend:", cartItems);
+
+            // If cart is empty
+            if (cartItems.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-cart">
+
+                        <h2>
+                            Your cart is empty 🛒
+                        </h2>
+
+                        <br>
+
+                        <button
+                            class="add-details-btn"
+                            onclick="showPage('home')">
+
+                            Continue Shopping
+
+                        </button>
+
+                    </div>
+
+                `;
+
+                totalElement.textContent = "0";
+
+                return;
+            }
+
+            let total = 0;
+
+            cartItems.forEach((item) => {
+
+                total += item.price * item.quantity;
+
+                container.innerHTML += `
+
+                    <div class="cart-item">
+
+                        <img
+                            src="${item.image}"
+                            alt="${item.title}"
+                        >
+
+                        <div class="cart-item-info">
+
+                            <h3>
+                                ${item.title}
+                            </h3>
+
+                            <strong>
+                                ₹${item.price}
+                            </strong>
+
+                            <p>
+                                Quantity: ${item.quantity}
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="remove-btn"
+                            onclick="removeFromCart(${item.id})">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            });
+
+            totalElement.textContent = total;
+
+        })
+
+        .catch(error => {
+
+            console.error("Cart loading error:", error);
+
+            container.innerHTML = `
+
+                <div class="empty-cart">
+
+                    <h2>
+                        Unable to load cart
+                    </h2>
+
+                    <p>
+                        Please make sure the backend is running.
+                    </p>
+
+                </div>
+
+            `;
+
+        });
+}
+
+
+
+        // =========================================
+        // REMOVE FROM CART
+        // =========================================
+
+        function removeFromCart(id) {
+
+    fetch(`http://localhost:8080/api/cart/${id}`, {
+        method: "DELETE"
+    })
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Failed to remove item");
+        }
+
+        console.log("Book removed from cart");
+
+        // Reload cart from database
+        displayCart();
+
+        // Update cart count
+        updateCartCount();
+
+    })
+    .catch(error => {
+
+        console.error("Remove cart error:", error);
+
+        alert("Unable to remove book from cart.");
+
+    });
+}
+
+
+
+        // =========================================
+        // GO TO CHECKOUT
+        // =========================================
+
+        function goToCheckout() {
+
+    fetch("http://localhost:8080/api/cart")
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to get cart");
+            }
+
+            return response.json();
+        })
+
+        .then(cartItems => {
+
+            if (cartItems.length === 0) {
+
+                alert("Your cart is empty!");
+
+                return;
+            }
+
+            // Cart has books
+            showPage("checkout");
+
+
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Checkout error:",
+                error
+            );
+
+            alert(
+                "Unable to check your cart. " +
+                "Please make sure the backend is running."
+            );
+
+        });
+}
+
+
+
+        // =========================================
+        // DISPLAY CHECKOUT
+        // =========================================
+
+        function displayCheckout() {
+
+    const container =
+        document.getElementById("checkout-items");
+
+    const totalElement =
+        document.getElementById("checkout-total");
+
+    container.innerHTML = "";
+
+    fetch("http://localhost:8080/api/cart")
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to load cart");
+            }
+
+            return response.json();
+        })
+
+        .then(cartItems => {
+
+            console.log("Checkout cart:", cartItems);
+
+            let total = 0;
+
+            if (cartItems.length === 0) {
+
+                container.innerHTML = `
+                    <p>Your cart is empty.</p>
+                `;
+
+                totalElement.textContent = "0";
+
+                return;
+            }
+
+            cartItems.forEach(item => {
+
+                total += item.price * item.quantity;
+
+                container.innerHTML += `
+
+                    <div class="checkout-item">
+
+                        <span>
+                            ${item.title}
+                        </span>
+
+                        <strong>
+                            ₹${item.price * item.quantity}
+                        </strong>
+
+                    </div>
+
+                `;
+
+            });
+
+            totalElement.textContent = total;
+
+        })
+
+        .catch(error => {
+
+            console.error("Checkout loading error:", error);
+
+            container.innerHTML = `
+                <p>Unable to load cart.</p>
+            `;
+
+            totalElement.textContent = "0";
+
+        });
+}
+
+
+
+        // =========================================
+        // PLACE ORDER
+        // =========================================
+        document
+    .getElementById("checkout-form")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const name =
+                document
+                    .getElementById("customerName")
+                    .value;
+
+            const email =
+                document
+                    .getElementById("customerEmail")
+                    .value;
+
+            const address =
+                document
+                    .getElementById("customerAddress")
+                    .value;
+
+            const message =
+                document
+                    .getElementById("order-message");
+
+
+            // Get cart from backend
+            fetch("http://localhost:8080/api/cart")
+
+                .then(response => {
+
+                    if (!response.ok) {
+                        throw new Error("Unable to get cart");
+                    }
+
+                    return response.json();
+                })
+
+                .then(cartItems => {
+
+                    if (cartItems.length === 0) {
+
+                        alert("Your cart is empty!");
+
+                        return;
+                    }
+
+
+                    // Calculate total
+                    let total = 0;
+
+                    cartItems.forEach(item => {
+
+                        total +=
+                            item.price * item.quantity;
+
+                    });
+
+
+                    // Create order object
+                    const order = {
+
+                        customerName: name,
+
+                        email: email,
+
+                        address: address,
+
+                        totalAmount: total
+
+                    };
+
+
+                    // Send order to Spring Boot
+                    return fetch(
+                        "http://localhost:8080/api/orders",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(order)
+                        }
+                    );
+
+                })
+
+                .then(response => {
+
+                    if (!response) {
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "Order could not be saved"
+                        );
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(savedOrder => {
+
+                    if (!savedOrder) {
+                        return;
+                    }
+
+                    console.log(
+                        "Order saved:",
+                        savedOrder
+                    );
+
+
+                    // Show success message
+                    message.innerHTML = `
+
+                        ✅ Thank you, ${name}!
+
+                        <br><br>
+
+                        Your order has been
+                        placed successfully.
+
+                        <br><br>
+
+                        📦 Your books will be
+                        delivered soon.
+
+                    `;
+
+
+                    // Now clear backend cart
+                    return fetch(
+                        "http://localhost:8080/api/cart"
+                    )
+                    .then(response => response.json());
+
+                })
+
+                .then(cartItems => {
+
+                    if (!cartItems) {
+                        return;
+                    }
+
+                    // Delete every item from backend cart
+                    const deleteRequests =
+                        cartItems.map(item => {
+
+                            return fetch(
+                                `http://localhost:8080/api/cart/${item.id}`,
+                                {
+                                    method: "DELETE"
+                                }
+                            );
+
+                        });
+
+
+                    return Promise.all(deleteRequests);
+
+                })
+
+                .then(() => {
+
+                    updateCartCount();
+
+                    document
+                        .getElementById(
+                            "checkout-form"
+                        )
+                        .reset();
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Order error:",
+                        error
+                    );
+
+                    message.innerHTML = `
+
+                        ❌ There was a problem
+                        placing your order.
+
+                        <br><br>
+
+                        Please try again.
+
+                    `;
+
+                });
+
+        }
+    );
+        
+
+
+
+        // =========================================
+        // INITIAL LOAD
+        // =========================================
+
+        displayBooks();
+
+        updateCartCount();
+
+        
+
+           
+
+           // ==============================
+// BACKEND CONNECTION
+// ==============================
+
+fetch("http://localhost:8080/api/books")
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Backend returned an error");
+        }
+
+        return response.json();
+
+    })
+    .then(data => {
+
+        console.log("Books received from backend:", data);
+
+        // Store books received from MySQL
+        books = data;
+
+        // Display books on frontend
+        displayBooks(books);
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Backend connection error:",
+            error
+        );
+
+    });
+
+    
+
+    </script>
+
+</body>
+
+</html>
